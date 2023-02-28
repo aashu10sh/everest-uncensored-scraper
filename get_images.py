@@ -1,13 +1,23 @@
 from bs4 import BeautifulSoup
 import requests
 import lxml
+import sys
+
+def get_args():
+    if len(sys.argv) <2 :
+        print("pls provide reletive args\nlink directory")
+        exit(0)
+    link :str = sys.argv[1]
+    directory :str = sys.argv[2]
+    return link,directory
+        
 
 def get_html(link:str)->str:
     return requests.get(link).text
 
-def beautiful_soup_stuff()->None:
+def beautiful_soup_stuff(link)->None:
     image_and_alt :dict = {}
-    soup = BeautifulSoup(get_html("https://everestuncensored.deerhold.com/d2hawkeye-hiking-budhanilkantha-shivapuri"),'html.parser')
+    soup = BeautifulSoup(get_html(link),'html.parser')
     dom = lxml.etree.HTML(str(soup))
     print(str(soup))
     xpath_1 :str = "/html/body/div/div[2]/div[2]/div/div[2]/table/tbody/tr/td[2]/table/tbody/tr[1]/td/a/img"
@@ -25,20 +35,22 @@ def beautiful_soup_stuff()->None:
     return image_and_alt
     
 
-def write_to_file(name,content):
-    with open(name+".jpg","wb") as binary_writer:
+def write_to_file(name,content,directory):
+    with open(directory+"/"+name+".jpg","wb") as binary_writer:
         binary_writer.write(content)
         
 
-def download_image_and_text(image_and_text:dict):
+
+def download_image_and_text(image_and_text:dict,directory):
     for alt,src in image_and_text.items():
         print("Getting {}".format(src))
         data = requests.get(src,stream=True)
 
-        write_to_file(alt,data.content)
+        write_to_file(alt,data.content,directory)
 
 
 if __name__ == "__main__":
-    image_and_text = beautiful_soup_stuff()
+    link,directory = get_args()
+    image_and_text = beautiful_soup_stuff(link)
 
-    download_image_and_text(image_and_text)
+    download_image_and_text(image_and_text,directory)
