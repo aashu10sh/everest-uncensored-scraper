@@ -3,6 +3,11 @@
 ## TO RUN 
 
 ```bash
-pip install selenium
-python3 main.py
+# Initially 
+python -m pip install -r requirements.txt
+
+# To run
+python run.py {link}
+
+
 ```

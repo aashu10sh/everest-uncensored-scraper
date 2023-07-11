@@ -57,8 +57,3 @@ class Scraper():
         self.create_new_directory()
         self.download_images(links)
 
-
-
-eu = Scraper(
-    "https://everestuncensored.deerhold.com/hiking-tokha-budanilkantha")
-eu.scrape()
