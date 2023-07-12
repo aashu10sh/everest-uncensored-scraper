@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import requests
 
 
+
 class Scraper():
     """ Web Scraper for the Everest Uncensored Website"""
 
