@@ -10,7 +10,10 @@ class Scraper():
     def __init__(self, url: str):
         self.url: str = url
         self.allowed_extensions = ["jpg", "png"]
+        if self.url[-1] == '/':
+            self.url = self.url[:-1]
         self.download_path = os.path.join(os.getcwd(),self.url.split("/")[-1])
+        print(self.download_path)
 
     def get_html(self) -> str:
         """Returns HTML Content of the required page."""
@@ -24,7 +27,7 @@ class Scraper():
         """Returns all images """
         links = []
         for link in soup.findAll("img"):
-            if "amazonaws" in link.get("src"):
+            if "wp-content" in link.get("src"):
                 links.append(link.get("src"))
 
         return links
